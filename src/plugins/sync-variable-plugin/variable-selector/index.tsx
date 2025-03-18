@@ -3,7 +3,7 @@ import React from 'react';
 import { type TreeNodeData } from '@douyinfe/semi-ui/lib/es/tree';
 import { TreeSelect } from '@douyinfe/semi-ui';
 
-import { type JsonSchema } from '../../../typings';
+import { type JsonSchema } from '@/typings';
 import { useVariableTree } from './use-variable-tree';
 
 export interface VariableSelectorProps {

@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 import { useMemo } from 'react';
 
 import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin';
@@ -28,7 +28,7 @@ export function useEditorProps(
        */
       background: true,
       /**
-       * Whether it is read-only or not, the node cannot be dragged in read-only mode
+       * 是否为 readonly
        */
       readonly: false,
       /**
@@ -38,7 +38,7 @@ export function useEditorProps(
       initialData,
       /**
        * Node registries
-       * 节点注册
+       * 节点注册/定义
        */
       nodeRegistries,
       /**
@@ -98,26 +98,30 @@ export function useEditorProps(
       selectBox: {
         SelectorBoxPopover,
       },
+      /**
+       * 画布物料
+       */
       materials: {
         /**
          * Render Node
          */
-        renderDefaultNode: BaseNode,
+        renderDefaultNode: BaseNode, // 节点渲染组件
       },
       /**
-       * Node engine enable, you can configure formMeta in the FlowNodeRegistry
+       * 节点引擎, 用于渲染节点表单
        */
       nodeEngine: {
         enable: true,
       },
       /**
        * Variable engine enable
+       * 变量引擎
        */
       variableEngine: {
         enable: true,
       },
       /**
-       * Redo/Undo enable
+       * 画布历史记录, 用于控制 redo/undo
        */
       history: {
         enable: true,
@@ -135,6 +139,7 @@ export function useEditorProps(
       shortcuts,
       /**
        * Playground render
+       * 画布第一次渲染完整回调
        */
       onAllLayersRendered(ctx) {
         //  Fitview
@@ -143,6 +148,7 @@ export function useEditorProps(
       },
       /**
        * Playground dispose
+       * 画布销毁回调
        */
       onDispose() {
         console.log('---- Playground Dispose ----');

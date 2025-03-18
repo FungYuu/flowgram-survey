@@ -28,13 +28,13 @@ function DropdownContent() {
   return (
     <Dropdown.Menu>
       <Dropdown.Item onClick={handleCopy} disabled={registry.meta!.copyDisable === true}>
-        Copy
+        复制
       </Dropdown.Item>
       <Dropdown.Item
         onClick={deleteNode}
         disabled={!!(registry.canDelete?.(clientContext, node) || registry.meta!.deleteDisable)}
       >
-        Delete
+        删除
       </Dropdown.Item>
     </Dropdown.Menu>
   );

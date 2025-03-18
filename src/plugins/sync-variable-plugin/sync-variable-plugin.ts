@@ -4,7 +4,7 @@ import {
   getNodeForm,
   PluginCreator,
   FreeLayoutPluginContext,
-  ASTFactory,
+  ASTFactory
 } from '@flowgram.ai/free-layout-editor';
 
 import { createASTFromJSONSchema } from './utils';
@@ -12,61 +12,61 @@ import { createASTFromJSONSchema } from './utils';
 export interface SyncVariablePluginOptions {}
 
 /**
- * Creates a plugin to synchronize output data to the variable engine when nodes are created or updated.
- * @param ctx - The plugin context, containing the document and other relevant information.
- * @param options - Plugin options, currently an empty object.
+ * 创建一个插件，当节点创建或更新时，将输出数据同步到变量引擎。
+ * @param ctx - 插件上下文，包含文档和其他相关信息。
+ * @param options - 插件选项，目前为空对象。
  */
 export const createSyncVariablePlugin: PluginCreator<SyncVariablePluginOptions> =
   definePluginCreator<SyncVariablePluginOptions, FreeLayoutPluginContext>({
     onInit(ctx, options) {
       const flowDocument = ctx.document;
 
-      // Listen for node creation events
+      // 监听节点创建事件
       flowDocument.onNodeCreate(({ node }) => {
         const form = getNodeForm(node);
         const variableData = node.getData(FlowNodeVariableData);
 
         /**
-         * Synchronizes output data to the variable engine.
-         * @param value - The output data to synchronize.
+         * 将输出数据同步到变量引擎。
+         * @param value - 要同步的输出数据。
          */
         const syncOutputs = (value: any) => {
           if (!value) {
-            // If the output data is empty, clear the variable
+            // 如果输出数据为空，则清除变量。
             variableData.clearVar();
             return;
           }
 
-          // Create an Type AST from the output data's JSON schema
-          // NOTICE: You can create a new function to generate an AST based on YOUR CUSTOM DSL
+          // 从输出数据的 JSON 模式创建一个类型 AST
+          // 注意：你可以创建一个新函数，根据你的自定义 DSL 生成 AST。
           const typeAST = createASTFromJSONSchema(value);
 
           if (typeAST) {
-            // Use the node's title or its ID as the title for the variable
+            // 使用节点的标题或其 ID 作为变量的标题。
             const title = form?.getValueIn('title') || node.id;
 
-            // Set the variable in the variable engine
+            // 在变量引擎中设置变量。
             variableData.setVar(
               ASTFactory.createVariableDeclaration({
                 meta: {
-                  title: `${title}.outputs`,
-                  // NOTICE: You can add more metadata here as needed
+                  title: `${title}.outputs`
+                  // 注意：您可以根据需要在此处添加更多元数据。
                 },
                 key: `${node.id}.outputs`,
-                type: typeAST,
+                type: typeAST
               })
             );
           } else {
-            // If the AST cannot be created, clear the variable
+            // 如果无法创建 AST，则清除变量。
             variableData.clearVar();
           }
         };
 
         if (form) {
-          // Initially synchronize the output data
+          // 初始同步输出数据。
           syncOutputs(form.getValueIn('outputs'));
 
-          // Listen for changes in the form values and re-synchronize when outputs change
+          // 监听表单值的变化，并在输出数据变化时重新同步。
           form.onFormValuesChange((props) => {
             if (props.name.match(/^outputs/)) {
               syncOutputs(form.getValueIn('outputs'));
@@ -74,5 +74,5 @@ export const createSyncVariablePlugin: PluginCreator<SyncVariablePluginOptions> 
           });
         }
       });
-    },
+    }
   });

@@ -9,12 +9,12 @@ import {
   isMatchAST,
   ObjectType,
   type UnionJSON,
-  useScopeAvailable,
+  useScopeAvailable
 } from '@flowgram.ai/free-layout-editor';
 
 import { createASTFromJSONSchema } from '../utils';
 import { ArrayIcons, VariableTypeIcons } from '../icons';
-import { type JsonSchema } from '../../../typings';
+import { type JsonSchema } from '@/typings';
 
 type VariableField = any;
 
@@ -40,7 +40,7 @@ export function useVariableTree<TreeData>({
   targetSchemas = [],
   strongEqual = false,
   ignoreReadonly = false,
-  getTreeData,
+  getTreeData
 }: HooksParams<TreeData>): TreeData[] {
   const available = useScopeAvailable();
 
@@ -67,7 +67,7 @@ export function useVariableTree<TreeData>({
         types: targetSchemas.map((_targetSchema) => {
           const typeAst = createASTFromJSONSchema(_targetSchema)!;
           return strongEqual ? typeAst : { ...typeAst, weak: true };
-        }),
+        })
       }),
     [strongEqual, ...targetSchemas]
   );
@@ -91,14 +91,19 @@ export function useVariableTree<TreeData>({
     variable: VariableField,
     parentFields: VariableField[] = []
   ): TreeData | null => {
-    let type = variable?.type;
+    const type = variable?.type;
 
     const isTypeFiltered = checkTypeFiltered(type);
 
     let children: TreeData[] | undefined;
     if (isMatchAST(type, ObjectType)) {
       children = (type.properties || [])
-        .map((_property) => renderVariable(_property as VariableField, [...parentFields, variable]))
+        .map((_property) =>
+          renderVariable(_property as VariableField, [
+            ...parentFields,
+            variable
+          ])
+        )
         .filter(Boolean) as TreeData[];
     }
 
@@ -108,7 +113,7 @@ export function useVariableTree<TreeData>({
 
     const currPath = [
       ...parentFields.map((_field) => _field.meta?.titleKey || _field.key),
-      variable.meta?.titleKey || variable.key,
+      variable.meta?.titleKey || variable.key
     ].join('.');
 
     return getTreeData({
@@ -117,7 +122,7 @@ export function useVariableTree<TreeData>({
       variable,
       parentFields,
       children,
-      disabled: isTypeFiltered,
+      disabled: isTypeFiltered
     });
   };
 
@@ -130,7 +135,7 @@ export function useVariableTree<TreeData>({
         return true;
       })
       .slice(0)
-      .reverse(),
+      .reverse()
   ]
     .map((_variable) => renderVariable(_variable as VariableField))
     .filter(Boolean) as TreeData[];

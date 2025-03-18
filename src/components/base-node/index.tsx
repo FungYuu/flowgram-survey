@@ -7,7 +7,7 @@ import {
 } from '@flowgram.ai/free-layout-editor';
 import { ConfigProvider } from '@douyinfe/semi-ui';
 
-import { NodeRenderContext } from '../../context';
+import { NodeRenderContext } from '@/context';
 import { BaseNodeStyle, ErrorIcon } from './styles';
 
 export const BaseNode = ({ node }: { node: FlowNodeEntity }) => {
@@ -30,6 +30,10 @@ export const BaseNode = ({ node }: { node: FlowNodeEntity }) => {
 
   return (
     <ConfigProvider getPopupContainer={getPopupContainer}>
+      {/*
+        WorkflowNodeRenderer 会添加节点拖拽事件及 端口渲染，如果要深度定制，可以看该组件源代码:
+        https://github.com/bytedance/flowgram.ai/blob/main/packages/client/free-layout-editor/src/components/workflow-node-renderer.tsx
+      */}
       <WorkflowNodeRenderer node={node}>
         {form?.state.invalid && <ErrorIcon />}
         <BaseNodeStyle
@@ -39,6 +43,7 @@ export const BaseNode = ({ node }: { node: FlowNodeEntity }) => {
           }}
         >
           <NodeRenderContext.Provider value={nodeRender}>
+            {/*  表单渲染通过 formMeta 生成 */}
             {form?.render()}
           </NodeRenderContext.Provider>
         </BaseNodeStyle>
