@@ -2,7 +2,7 @@ import { EditorRenderer, FreeLayoutEditorProvider } from '@flowgram.ai/free-layo
 import '@flowgram.ai/free-layout-editor/index.css';
 
 import '@/styles/index.css';
-import { nodeRegistries } from '@/nodes';
+import { nodeRegistries } from '@/nodes'; // 注册节点
 import { initialData } from '@/initial-data'; // 初始化数据
 import { useEditorProps } from '@/hooks'; // 画布详细的 props 配置
 import { DemoTools } from '@/components/tools'; // 画布工具

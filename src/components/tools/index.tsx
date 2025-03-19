@@ -17,6 +17,7 @@ import { Minimap } from './minimap';
 import { Interactive } from './interactive';
 import { FitView } from './fit-view';
 import { AutoLayout } from './auto-layout';
+import {GetAllNodes} from './get-all-nodes'
 
 export const DemoTools = () => {
   const { history, playground } = useClientContext();
@@ -70,6 +71,7 @@ export const DemoTools = () => {
         <AddNode disabled={playground.config.readonly} />
         <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
         <Save disabled={playground.config.readonly} />
+        <GetAllNodes disabled={playground.config.readonly} />
       </ToolSection>
     </ToolContainer>
   );

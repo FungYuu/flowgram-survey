@@ -4,8 +4,8 @@ import { Input, Button } from '@douyinfe/semi-ui';
 import { IconCrossCircleStroked } from '@douyinfe/semi-icons';
 
 import { TypeSelector } from '../type-selector';
-import { JsonSchema } from '../../typings';
-import { VariableSelector } from '../../plugins/sync-variable-plugin/variable-selector';
+import { JsonSchema } from '@/typings';
+import { VariableSelector } from '@/plugins/sync-variable-plugin/variable-selector';
 import { LeftColumn, Row } from './styles';
 
 export interface PropertyEditProps {
